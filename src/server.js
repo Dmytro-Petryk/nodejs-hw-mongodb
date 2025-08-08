@@ -1,20 +1,24 @@
-const express = require('express')
-const cors = require('cors')
-const pino = require('pino-http')
+import express from 'express'
+import cors from 'cors'
+import pino from 'pino-http'
 
-const {
-  getContacts,
-  getContactByIdController,
-} = require('./controllers/contacts')
+import contactsRouter from './routers/contacts.js'
+import { notFoundHandler } from './middlewares/notFoundHandle.js'
+import { errorHandler } from './middlewares/errorHandler.js'
+import { getAllContacts, getContactById } from './controllers/contacts.js'
 
 function setupServer() {
   const app = express()
 
   app.use(cors())
   app.use(pino())
+  app.use('/contacts', contactsRouter)
 
-  app.get('/contacts', getContacts)
-  app.get('/contacts/:contactId', getContactByIdController)
+  app.get('/contacts', getAllContacts)
+  app.get('/contacts/:contactId', getContactById)
+
+  app.use(notFoundHandler)
+  app.use(errorHandler)
 
   app.use((req, res) => {
     res.status(404).json({ message: 'Not found' })
@@ -24,6 +28,8 @@ function setupServer() {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
   })
+
+  return app
 }
 
-module.exports = setupServer
+export default setupServer
