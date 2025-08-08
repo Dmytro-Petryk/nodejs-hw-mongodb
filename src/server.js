@@ -5,7 +5,6 @@ import pino from 'pino-http'
 import contactsRouter from './routers/contacts.js'
 import { notFoundHandler } from './middlewares/notFoundHandler.js'
 import { errorHandler } from './middlewares/errorHandler.js'
-import { getAllContacts, getContactById } from './controllers/contacts.js'
 
 function setupServer() {
   const app = express()
@@ -13,9 +12,6 @@ function setupServer() {
   app.use(cors())
   app.use(pino())
   app.use('/contacts', contactsRouter)
-
-  app.get('/contacts', getAllContacts)
-  app.get('/contacts/:contactId', getContactById)
 
   app.use(notFoundHandler)
   app.use(errorHandler)
