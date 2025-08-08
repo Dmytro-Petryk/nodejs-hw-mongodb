@@ -3,7 +3,7 @@ import cors from 'cors'
 import pino from 'pino-http'
 
 import contactsRouter from './routers/contacts.js'
-import { notFoundHandler } from './middlewares/notFoundHandle.js'
+import { notFoundHandler } from './middlewares/notFoundHandler.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 import { getAllContacts, getContactById } from './controllers/contacts.js'
 
