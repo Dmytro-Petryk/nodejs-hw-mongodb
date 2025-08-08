@@ -2,6 +2,7 @@
   "name": "nodejs-hw-mongodb",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
@@ -15,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "http-errors": "^2.0.0",
     "mongoose": "^8.17.0",
     "pino-http": "^10.5.0"
   },
