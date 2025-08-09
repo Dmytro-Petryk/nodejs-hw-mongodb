@@ -1,17 +1,17 @@
-import Contact from '../models/Contact.js'
+import contact from '../models/contact.js'
 async function getAllContacts() {
-  return await Contact.find()
+  return await contact.find()
 }
 
 async function getContactById(contactId) {
-  return await Contact.findById(contactId)
+  return await contact.findById(contactId)
 }
 
-export const createContact = (contactData) => Contact.create(contactData)
+export const createContact = (contactData) => contact.create(contactData)
 
 export const updateContact = (id, updates) =>
-  Contact.findByIdAndUpdate(id, updates, { new: true })
+  contact.findByIdAndUpdate(id, updates, { new: true })
 
-export const deleteContact = (id) => Contact.findByIdAndDelete(id)
+export const deleteContact = (id) => contact.findByIdAndDelete(id)
 
 export { getAllContacts, getContactById }
