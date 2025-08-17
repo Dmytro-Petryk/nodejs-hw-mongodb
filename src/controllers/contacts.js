@@ -4,9 +4,16 @@ import createHttpError from 'http-errors'
 export const getAllContacts = async (req, res) => {
   const contacts = await contactsService.getAllContacts()
   res.json({
-    status: 200,
-    message: 'Contacts fetched successfully',
-    data: contacts,
+    message: 'Successfully found contacts!',
+    data: {
+      data: contacts.data,
+      page: contacts.page,
+      perPage: contacts.perPage,
+      totalItems: contacts.totalItems,
+      totalPages: contacts.totalPages,
+      hasPreviousPage: contacts.hasPreviousPage,
+      hasNextPage: contacts.hasNextPage,
+    },
   })
 }
 
