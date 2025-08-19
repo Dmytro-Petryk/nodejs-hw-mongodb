@@ -1,27 +1,26 @@
 import Contact from '../models/contact.js'
 
 export const getAllContacts = async (req, res) => {
-  try {
-    const { page = 1, perPage = 10 } = req.query
-    const skip = (page - 1) * perPage
+  const {
+    page = 1,
+    perPage = 10,
+    sortBy = 'name',
+    sortOrder = 'asc',
+  } = req.query
 
-    const totalItems = await Contact.countDocuments()
-    const contacts = await Contact.find().skip(skip).limit(Number(perPage))
+  const skip = (page - 1) * perPage
+  const sortOptions = { [sortBy]: sortOrder === 'desc' ? -1 : 1 }
 
-    res.json({
-      status: 200,
-      message: 'Successfully found contacts!',
-      data: {
-        data: contacts,
-        page: Number(page),
-        perPage: Number(perPage),
-        totalItems,
-        totalPages: Math.ceil(totalItems / perPage),
-        hasPreviousPage: Number(page) > 1,
-        hasNextPage: Number(page) < Math.ceil(totalItems / perPage),
-      },
-    })
-  } catch (error) {
-    res.status(500).json({ status: 500, message: error.message })
-  }
+  const [data, totalItems] = await Promise.all([
+    Contact.find().sort(sortOptions).skip(skip).limit(Number(perPage)),
+    Contact.countDocuments(),
+  ])
+
+  res.json({
+    data,
+    page: Number(page),
+    perPage: Number(perPage),
+    totalItems,
+    totalPages: Math.ceil(totalItems / perPage),
+  })
 }
