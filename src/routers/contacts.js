@@ -4,15 +4,17 @@ import {
   getAllContacts,
   getContactById,
   createContact,
-  updateContact,
-  deleteContact,
-} from '../controllers/contacts.js'
+  updateContactById,
+  deleteContactById,
+} from '../controllers/contactsControllers.js'
 import { validateBody } from '../middlewares/validateBody.js'
 import { isValidId } from '../middlewares/isValidId.js'
 import {
   createContactSchema,
   updateContactSchema,
 } from '../validation/contactsSchemas.js'
+
+const router = express.Router()
 
 const querySchema = Joi.object({
   page: Joi.number().integer().min(1).default(1),
@@ -34,21 +36,15 @@ const validateQuery = (schema) => {
   }
 }
 
-const router = express.Router()
-
 router.get('/', validateQuery(querySchema), getAllContacts)
-
 router.get('/:contactId', isValidId, getContactById)
-
 router.post('/', validateBody(createContactSchema), createContact)
-
 router.patch(
   '/:contactId',
   isValidId,
   validateBody(updateContactSchema),
-  updateContact
+  updateContactById
 )
-
-router.delete('/:contactId', isValidId, deleteContact)
+router.delete('/:contactId', isValidId, deleteContactById)
 
 export default router
